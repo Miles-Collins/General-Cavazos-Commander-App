@@ -40,7 +40,8 @@ public class App {
             System.out.println("3. undo   - Undo last command");
             System.out.println("4. redo   - Redo last undone command");
             System.out.println("5. history - View command history");
-            System.out.println("6. quit   - Exit the program");
+            System.out.println("6. clear  - Clear command history");
+            System.out.println("7. quit   - Exit the program");
             System.out.print("\nEnter command: ");
 
             String input = scanner.nextLine().trim().toLowerCase();
@@ -63,13 +64,17 @@ public class App {
                     redoCommand();
                     break;
                 case "quit":
-                case "6":
+                case "7":
                     System.out.println("Exiting General Cavazos Commander. Goodbye!");
                     running = false;
                     break;
                 case "history":
                 case "5":
                     displayCommandHistory();
+                    break;
+                case "clear":
+                case "6":
+                    clearCommandHistory();
                     break;
                 default:
                     System.out.println("Unknown command. Please try again.");
@@ -153,6 +158,21 @@ public class App {
             for (int i = 0; i < redo.length; i++) {
                 System.out.printf("%d. %s\n", i + 1, redo[i]);
             }
+        }
+    }
+
+    // Clear the command history
+    public static void clearCommandHistory() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Are you sure you want to clear the command history? (yes/no): ");
+        String response = scanner.nextLine().trim().toLowerCase();
+
+        if (response.equals("yes") || response.equals("y")) {
+            commandHistory.clear();
+            redoStack.clear();
+            System.out.println("Command history cleared.");
+        } else {
+            System.out.println("Clear history cancelled.");
         }
     }
 
