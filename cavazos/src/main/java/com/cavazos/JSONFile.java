@@ -28,7 +28,7 @@ public final class JSONFile {
                 return (JSONArray) obj;
             }
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            System.err.println("Failed to parse resource: " + resourceName);
             return null;
         }
     }
