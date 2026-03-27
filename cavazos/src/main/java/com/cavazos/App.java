@@ -1,6 +1,5 @@
 package com.cavazos;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Stack;
@@ -12,6 +11,8 @@ public class App {
     private static String[] commandArray;
     private static Stack<String> commandHistory = new Stack<>();
     private static Stack<String> redoStack = new Stack<>();
+
+    public static void main(String[] args) {
         String fileName = "commands.json";
 
         // read commands
@@ -111,7 +112,8 @@ public class App {
                 redoStack.clear();  // Clear redo stack when new command is issued
                 System.out.println(">> Command issued: " + command);
             } else {
-                System.out.println("Invalid command number. Please select a number between 0 and " + (commandArray.length - 1));
+                System.out.println("Invalid command number. Please select a number between 0 and "
+                    + (commandArray.length - 1));
             }
         } catch (NumberFormatException e) {
             System.out.println("Invalid input. Please enter a number.");
@@ -187,7 +189,7 @@ public class App {
         System.out.print("Are you sure you want to clear the command history? (yes/no): ");
         String response = scanner.nextLine().trim().toLowerCase();
 
-        if (response.equals("yes") || response.equals("y")) {
+        if ("yes".equals(response) || "y".equals(response)) {
             commandHistory.clear();
             redoStack.clear();
             System.out.println("Command history cleared.");
@@ -216,32 +218,32 @@ public class App {
         System.out.println("  - When you issue a new command after undo, the redo stack is cleared");
     }
 
-    public static void randomCommand(String[] commandArray, int numCommand) {
+    public static void randomCommand(String[] commands, int numCommand) {
         Random rand = new Random();
         System.out.printf("Number\tCommand\n");
         System.out.printf("------\t---------------\n");
         for (int i = 0; i < numCommand; i++) {
-            int randIndex = rand.nextInt(commandArray.length);
-            System.out.printf("%04d\t%s\n", i, commandArray[randIndex]);
+            int randIndex = rand.nextInt(commands.length);
+            System.out.printf("%04d\t%s\n", i, commands[randIndex]);
         }
     }
 
     // print command array
-    public static void print(String[] commandArray) {
+    public static void print(String[] commands) {
         System.out.printf("Number\tCommand\n");
         System.out.printf("------\t---------------\n");
-        for (int i = 0; i < commandArray.length; i++) {
-            System.out.printf("%04d\t%s\n", i, commandArray[i]);
+        for (int i = 0; i < commands.length; i++) {
+            System.out.printf("%04d\t%s\n", i, commands[i]);
         }
     }
 
     // get array of commands
-    public static String[] getCommandArray(JSONArray commandArray) {
-        String[] arr = new String[commandArray.size()];
+    public static String[] getCommandArray(JSONArray commands) {
+        String[] arr = new String[commands.size()];
 
         // get names from json object
-        for (int i = 0; i < commandArray.size(); i++) {
-            String command = commandArray.get(i).toString();
+        for (int i = 0; i < commands.size(); i++) {
+            String command = commands.get(i).toString();
             arr[i] = command;
         }
         return arr;
