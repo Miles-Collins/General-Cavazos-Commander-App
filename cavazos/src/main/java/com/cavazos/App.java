@@ -41,7 +41,8 @@ public class App {
             System.out.println("4. redo   - Redo last undone command");
             System.out.println("5. history - View command history");
             System.out.println("6. clear  - Clear command history");
-            System.out.println("7. quit   - Exit the program");
+            System.out.println("7. help   - Show help information");
+            System.out.println("8. quit   - Exit the program");
             System.out.print("\nEnter command: ");
 
             String input = scanner.nextLine().trim().toLowerCase();
@@ -64,7 +65,7 @@ public class App {
                     redoCommand();
                     break;
                 case "quit":
-                case "7":
+                case "8":
                     System.out.println("Exiting General Cavazos Commander. Goodbye!");
                     running = false;
                     break;
@@ -75,6 +76,10 @@ public class App {
                 case "clear":
                 case "6":
                     clearCommandHistory();
+                    break;
+                case "help":
+                case "7":
+                    showHelp();
                     break;
                 default:
                     System.out.println("Unknown command. Please try again.");
@@ -174,6 +179,25 @@ public class App {
         } else {
             System.out.println("Clear history cancelled.");
         }
+    }
+
+    // Show help information
+    public static void showHelp() {
+        System.out.println("\n===== General Cavazos Commander - Help =====");
+        System.out.println("This application allows you to issue commands from General Cavazos.");
+        System.out.println("\nAvailable Commands:");
+        System.out.println("  list   - Displays all available military commands");
+        System.out.println("  issue  - Allows you to select and issue a command");
+        System.out.println("  undo   - Undoes the last issued command");
+        System.out.println("  redo   - Redoes the last undone command");
+        System.out.println("  history - Shows the command history and redo stack");
+        System.out.println("  clear  - Clears all command history");
+        System.out.println("  help   - Shows this help message");
+        System.out.println("  quit   - Exits the application");
+        System.out.println("\nUsage Tips:");
+        System.out.println("  - You can use either the command name or its number");
+        System.out.println("  - Undo and Redo work with a stack-based history system");
+        System.out.println("  - When you issue a new command after undo, the redo stack is cleared");
     }
 
     public static void randomCommand(String[] commandArray, int numCommand) {
