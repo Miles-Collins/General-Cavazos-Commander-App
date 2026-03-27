@@ -35,14 +35,15 @@ public class App {
 
         while (running) {
             System.out.println("\nOptions:");
-            System.out.println("1. list   - Display all commands");
-            System.out.println("2. issue  - Issue a command");
-            System.out.println("3. undo   - Undo last command");
-            System.out.println("4. redo   - Redo last undone command");
-            System.out.println("5. history - View command history");
-            System.out.println("6. clear  - Clear command history");
-            System.out.println("7. help   - Show help information");
-            System.out.println("8. quit   - Exit the program");
+            System.out.println("1. list    - Display all commands");
+            System.out.println("2. issue   - Issue a command");
+            System.out.println("3. random  - Issue a random command");
+            System.out.println("4. undo    - Undo last command");
+            System.out.println("5. redo    - Redo last undone command");
+            System.out.println("6. history - View command history");
+            System.out.println("7. clear   - Clear command history");
+            System.out.println("8. help    - Show help information");
+            System.out.println("9. quit    - Exit the program");
             System.out.print("\nEnter command: ");
 
             String input = scanner.nextLine().trim().toLowerCase();
@@ -56,30 +57,34 @@ public class App {
                 case "2":
                     issueCommand();
                     break;
-                case "undo":
+                case "random":
                 case "3":
+                    issueRandomCommand();
+                    break;
+                case "undo":
+                case "4":
                     undoCommand();
                     break;
                 case "redo":
-                case "4":
+                case "5":
                     redoCommand();
                     break;
-                case "quit":
-                case "8":
-                    System.out.println("Exiting General Cavazos Commander. Goodbye!");
-                    running = false;
-                    break;
                 case "history":
-                case "5":
+                case "6":
                     displayCommandHistory();
                     break;
                 case "clear":
-                case "6":
+                case "7":
                     clearCommandHistory();
                     break;
                 case "help":
-                case "7":
+                case "8":
                     showHelp();
+                    break;
+                case "quit":
+                case "9":
+                    System.out.println("Exiting General Cavazos Commander. Goodbye!");
+                    running = false;
                     break;
                 default:
                     System.out.println("Unknown command. Please try again.");
@@ -111,6 +116,16 @@ public class App {
         } catch (NumberFormatException e) {
             System.out.println("Invalid input. Please enter a number.");
         }
+    }
+
+    // Issue a random command
+    public static void issueRandomCommand() {
+        Random rand = new Random();
+        int randomIndex = rand.nextInt(commandArray.length);
+        String command = commandArray[randomIndex];
+        commandHistory.push(command);
+        redoStack.clear();  // Clear redo stack when new command is issued
+        System.out.println(">> Random command issued: " + command);
     }
 
     // Display all available commands
@@ -188,6 +203,7 @@ public class App {
         System.out.println("\nAvailable Commands:");
         System.out.println("  list   - Displays all available military commands");
         System.out.println("  issue  - Allows you to select and issue a command");
+        System.out.println("  random - Issues a randomly selected command");
         System.out.println("  undo   - Undoes the last issued command");
         System.out.println("  redo   - Redoes the last undone command");
         System.out.println("  history - Shows the command history and redo stack");
