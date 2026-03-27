@@ -11,26 +11,69 @@ public class App {
     public static void main(String[] args) {
         String fileName = "commands.json";
 
-        // read coammands
+        // read commands
         JSONArray commandJSONArray = JSONFile.readArray(fileName);
         if (commandJSONArray == null) {
             System.err.println("Could not load commands from resources: " + fileName);
             return;
         }
         String[] commandArray = getCommandArray(commandJSONArray);
-        System.out.println(Arrays.toString(commandArray));
 
-        // print list of all commands
-        System.out.println("----- List of all commands -----");
-        print(commandArray);
-
-        System.out.println(
-                "----- Issuing 5 random commands from General Cavazos -----"
-        );
-        randomCommand(commandArray, 5);
+        // Start the interactive menu
+        startMenu(commandArray);
     }
 
-    // randomly issue commands from General Cavazos
+    // Start the interactive menu loop
+    public static void startMenu(String[] commandArray) {
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        System.out.println("\n===== General Cavazos Commander =====");
+
+        while (running) {
+            System.out.println("\nOptions:");
+            System.out.println("1. list   - Display all commands");
+            System.out.println("2. issue  - Issue a command");
+            System.out.println("3. undo   - Undo last command");
+            System.out.println("4. redo   - Redo last undone command");
+            System.out.println("5. quit   - Exit the program");
+            System.out.print("\nEnter command: ");
+
+            String input = scanner.nextLine().trim().toLowerCase();
+
+            switch (input) {
+                case "list":
+                case "1":
+                    // TODO: Implement list
+                    System.out.println("List command selected");
+                    break;
+                case "issue":
+                case "2":
+                    // TODO: Implement issue
+                    System.out.println("Issue command selected");
+                    break;
+                case "undo":
+                case "3":
+                    // TODO: Implement undo
+                    System.out.println("Undo command selected");
+                    break;
+                case "redo":
+                case "4":
+                    // TODO: Implement redo
+                    System.out.println("Redo command selected");
+                    break;
+                case "quit":
+                case "5":
+                    // TODO: Implement quit
+                    System.out.println("Quit command selected");
+                    break;
+                default:
+                    System.out.println("Unknown command. Please try again.");
+            }
+        }
+
+        scanner.close();
+    }
     public static void randomCommand(String[] commandArray, int numCommand) {
         Random rand = new Random();
         System.out.printf("Number\tCommand\n");
