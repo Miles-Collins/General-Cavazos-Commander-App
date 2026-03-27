@@ -3,12 +3,15 @@ package com.cavazos;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Stack;
 
 import org.json.simple.JSONArray;
 
 public class App {
 
     private static String[] commandArray;
+    private static Stack<String> commandHistory = new Stack<>();
+    private static Stack<String> redoStack = new Stack<>();
         String fileName = "commands.json";
 
         // read commands
@@ -48,18 +51,15 @@ public class App {
                     break;
                 case "issue":
                 case "2":
-                    // TODO: Implement issue
-                    System.out.println("Issue command selected");
+                    issueCommand();
                     break;
                 case "undo":
                 case "3":
-                    // TODO: Implement undo
-                    System.out.println("Undo command selected");
+                    undoCommand();
                     break;
                 case "redo":
                 case "4":
-                    // TODO: Implement redo
-                    System.out.println("Redo command selected");
+                    redoCommand();
                     break;
                 case "quit":
                 case "5":
@@ -74,10 +74,56 @@ public class App {
         scanner.close();
     }
 
+    // Issue a command from the list
+    public static void issueCommand() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n----- Select a Command to Issue -----");
+        print(commandArray);
+
+        System.out.print("Enter command number (0-" + (commandArray.length - 1) + "): ");
+        String input = scanner.nextLine().trim();
+
+        try {
+            int index = Integer.parseInt(input);
+            if (index >= 0 && index < commandArray.length) {
+                String command = commandArray[index];
+                commandHistory.push(command);
+                redoStack.clear();  // Clear redo stack when new command is issued
+                System.out.println(">> Command issued: " + command);
+            } else {
+                System.out.println("Invalid command number. Please select a number between 0 and " + (commandArray.length - 1));
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a number.");
+        }
+    }
+
     // Display all available commands
     public static void displayAllCommands() {
         System.out.println("\n----- All Available Commands -----");
         print(commandArray);
+    }
+
+    // Undo the last issued command
+    public static void undoCommand() {
+        if (commandHistory.isEmpty()) {
+            System.out.println("No commands to undo.");
+        } else {
+            String undoneCommand = commandHistory.pop();
+            redoStack.push(undoneCommand);
+            System.out.println(">> Undone: " + undoneCommand);
+        }
+    }
+
+    // Redo the last undone command
+    public static void redoCommand() {
+        if (redoStack.isEmpty()) {
+            System.out.println("No commands to redo.");
+        } else {
+            String redoneCommand = redoStack.pop();
+            commandHistory.push(redoneCommand);
+            System.out.println(">> Redone: " + redoneCommand);
+        }
     }
 
     public static void randomCommand(String[] commandArray, int numCommand) {
