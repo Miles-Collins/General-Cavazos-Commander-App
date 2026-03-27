@@ -3,15 +3,24 @@ package com.cavazos;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Stack;
-
 import org.json.simple.JSONArray;
 
-public class App {
+/** Main application class for General Cavazos Commander. */
+public final class App {
 
     private static String[] commandArray;
     private static Stack<String> commandHistory = new Stack<>();
     private static Stack<String> redoStack = new Stack<>();
 
+    /** Prevent instantiation of utility class. */
+    private App() {
+        // not instantiable
+    }
+
+    /**
+     * Main method for the application.
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         String fileName = "commands.json";
 
@@ -27,7 +36,7 @@ public class App {
         startMenu();
     }
 
-    // Start the interactive menu loop
+    /** Start the interactive menu loop. */
     public static void startMenu() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -95,7 +104,7 @@ public class App {
         scanner.close();
     }
 
-    // Issue a command from the list
+    /** Issue a command from the list selected by the user. */
     public static void issueCommand() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n----- Select a Command to Issue -----");
@@ -120,7 +129,7 @@ public class App {
         }
     }
 
-    // Issue a random command
+    /** Issue a randomly selected command. */
     public static void issueRandomCommand() {
         Random rand = new Random();
         int randomIndex = rand.nextInt(commandArray.length);
@@ -130,13 +139,13 @@ public class App {
         System.out.println(">> Random command issued: " + command);
     }
 
-    // Display all available commands
+    /** Display all available commands. */
     public static void displayAllCommands() {
         System.out.println("\n----- All Available Commands -----");
         print(commandArray);
     }
 
-    // Undo the last issued command
+    /** Undo the last issued command. */
     public static void undoCommand() {
         if (commandHistory.isEmpty()) {
             System.out.println("No commands to undo.");
@@ -147,7 +156,7 @@ public class App {
         }
     }
 
-    // Redo the last undone command
+    /** Redo the last undone command. */
     public static void redoCommand() {
         if (redoStack.isEmpty()) {
             System.out.println("No commands to redo.");
@@ -158,7 +167,7 @@ public class App {
         }
     }
 
-    // Display the command history
+    /** Display the command history and redo stack. */
     public static void displayCommandHistory() {
         System.out.println("\n----- Command History -----");
         if (commandHistory.isEmpty()) {
@@ -183,7 +192,7 @@ public class App {
         }
     }
 
-    // Clear the command history
+    /** Clear the command history with user confirmation. */
     public static void clearCommandHistory() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Are you sure you want to clear the command history? (yes/no): ");
@@ -198,7 +207,7 @@ public class App {
         }
     }
 
-    // Show help information
+    /** Show help information and usage tips. */
     public static void showHelp() {
         System.out.println("\n===== General Cavazos Commander - Help =====");
         System.out.println("This application allows you to issue commands from General Cavazos.");
@@ -218,6 +227,11 @@ public class App {
         System.out.println("  - When you issue a new command after undo, the redo stack is cleared");
     }
 
+    /**
+     * Issue random commands (legacy method).
+     * @param commands array of command strings
+     * @param numCommand number of commands to issue
+     */
     public static void randomCommand(String[] commands, int numCommand) {
         Random rand = new Random();
         System.out.printf("Number\tCommand\n");
@@ -228,7 +242,10 @@ public class App {
         }
     }
 
-    // print command array
+    /**
+     * Print command array in formatted output.
+     * @param commands array of command strings
+     */
     public static void print(String[] commands) {
         System.out.printf("Number\tCommand\n");
         System.out.printf("------\t---------------\n");
@@ -237,7 +254,11 @@ public class App {
         }
     }
 
-    // get array of commands
+    /**
+     * Convert JSONArray to String array.
+     * @param commands JSONArray of commands
+     * @return String array of command names
+     */
     public static String[] getCommandArray(JSONArray commands) {
         String[] arr = new String[commands.size()];
 
