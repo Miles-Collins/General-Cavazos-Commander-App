@@ -8,7 +8,7 @@ import org.json.simple.JSONArray;
 
 public class App {
 
-    public static void main(String[] args) {
+    private static String[] commandArray;
         String fileName = "commands.json";
 
         // read commands
@@ -17,14 +17,14 @@ public class App {
             System.err.println("Could not load commands from resources: " + fileName);
             return;
         }
-        String[] commandArray = getCommandArray(commandJSONArray);
+        commandArray = getCommandArray(commandJSONArray);
 
         // Start the interactive menu
-        startMenu(commandArray);
+        startMenu();
     }
 
     // Start the interactive menu loop
-    public static void startMenu(String[] commandArray) {
+    public static void startMenu() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
@@ -44,8 +44,7 @@ public class App {
             switch (input) {
                 case "list":
                 case "1":
-                    // TODO: Implement list
-                    System.out.println("List command selected");
+                    displayAllCommands();
                     break;
                 case "issue":
                 case "2":
@@ -74,6 +73,13 @@ public class App {
 
         scanner.close();
     }
+
+    // Display all available commands
+    public static void displayAllCommands() {
+        System.out.println("\n----- All Available Commands -----");
+        print(commandArray);
+    }
+
     public static void randomCommand(String[] commandArray, int numCommand) {
         Random rand = new Random();
         System.out.printf("Number\tCommand\n");
