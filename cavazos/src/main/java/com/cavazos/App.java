@@ -64,8 +64,8 @@ public class App {
                     break;
                 case "quit":
                 case "5":
-                    // TODO: Implement quit
-                    System.out.println("Quit command selected");
+                    System.out.println("Exiting General Cavazos Commander. Goodbye!");
+                    running = false;
                     break;
                 default:
                     System.out.println("Unknown command. Please try again.");
