@@ -39,7 +39,8 @@ public class App {
             System.out.println("2. issue  - Issue a command");
             System.out.println("3. undo   - Undo last command");
             System.out.println("4. redo   - Redo last undone command");
-            System.out.println("5. quit   - Exit the program");
+            System.out.println("5. history - View command history");
+            System.out.println("6. quit   - Exit the program");
             System.out.print("\nEnter command: ");
 
             String input = scanner.nextLine().trim().toLowerCase();
@@ -62,9 +63,13 @@ public class App {
                     redoCommand();
                     break;
                 case "quit":
-                case "5":
+                case "6":
                     System.out.println("Exiting General Cavazos Commander. Goodbye!");
                     running = false;
+                    break;
+                case "history":
+                case "5":
+                    displayCommandHistory();
                     break;
                 default:
                     System.out.println("Unknown command. Please try again.");
@@ -123,6 +128,31 @@ public class App {
             String redoneCommand = redoStack.pop();
             commandHistory.push(redoneCommand);
             System.out.println(">> Redone: " + redoneCommand);
+        }
+    }
+
+    // Display the command history
+    public static void displayCommandHistory() {
+        System.out.println("\n----- Command History -----");
+        if (commandHistory.isEmpty()) {
+            System.out.println("No commands have been issued yet.");
+        } else {
+            System.out.println("Issued Commands (most recent last):");
+            Object[] history = commandHistory.toArray();
+            for (int i = 0; i < history.length; i++) {
+                System.out.printf("%d. %s\n", i + 1, history[i]);
+            }
+        }
+
+        System.out.println("\n----- Redo Stack -----");
+        if (redoStack.isEmpty()) {
+            System.out.println("No commands available to redo.");
+        } else {
+            System.out.println("Commands Available to Redo:");
+            Object[] redo = redoStack.toArray();
+            for (int i = 0; i < redo.length; i++) {
+                System.out.printf("%d. %s\n", i + 1, redo[i]);
+            }
         }
     }
 
